@@ -1,38 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CanonManager : MonoBehaviour
 {
-    public float sensX;
-    public float sensY;
+    // private float turn;
+    [SerializeField] private Transform canonTransform;
+    [SerializeField] private Transform playerTransform;
+    public float turnSpeed;
 
-    public Transform canonOrientation;
-
-    public float xRotation;
-    public float yRotation;
-
+    PlayerInput playerInput;
+    InputAction moveCanonAction;
+    InputAction centerCanonAction;
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Find right Inputs
+        playerInput = GetComponent<PlayerInput>();
+
+        // Action must be given the accurate name
+        moveCanonAction = playerInput.actions.FindAction("MoveCanon");
+        centerCanonAction = playerInput.actions.FindAction("centerCanon");
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Get Mouse Inputs
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        CanonRotation();
+        CenterCanon();
+    }
 
-        yRotation += mouseX;
+    private void CanonRotation()
+    {
+        Vector2 direction = moveCanonAction.ReadValue<Vector2>();
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -20f, 20f);
+        canonTransform.Rotate(0, direction.x * turnSpeed, 0, Space.Self);
+        // objectTransform.Rotate(Vector3.up, turn * turnSpeed * Time.deltaTime);
+    }
 
-        // Rotate Cam and Orientation
-        canonOrientation.rotation = Quaternion.Euler(0, yRotation, 0);
+    private void CenterCanon()
+    {
+        float center = centerCanonAction.ReadValue<float>();
+        if (center == 1f) 
+        {
+            canonTransform.rotation = playerTransform.rotation;
+        }
     }
 }

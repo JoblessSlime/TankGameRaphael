@@ -20,6 +20,8 @@ public class PlayerMovementsTank : MonoBehaviour
     public float minAcceleration;
     public float acceleration;
 
+    private float maxAcelerationWhenRunning;
+
     public float speed = 5.0f;
     public float rotationTime = 0.2f;
 
@@ -27,6 +29,7 @@ public class PlayerMovementsTank : MonoBehaviour
 
     PlayerInput playerInput;
     InputAction moveAction;
+    InputAction accelerateAction;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +39,7 @@ public class PlayerMovementsTank : MonoBehaviour
 
         // Action must be given the accurate name
         moveAction = playerInput.actions.FindAction("Move");
+        accelerateAction = playerInput.actions.FindAction("Accelerate");
 
         acceleration = minAcceleration;
     }
@@ -44,16 +48,17 @@ public class PlayerMovementsTank : MonoBehaviour
     {
         isPlayerMoving = false;
         PlayerMovement();
+        Accelerate();
         if(isPlayerMoving)
         {
             acceleration *= accelerationConst;
-            acceleration = Mathf.Clamp(acceleration, minAcceleration, maxAcceleration);
+            acceleration = Mathf.Clamp(acceleration, minAcceleration, maxAcelerationWhenRunning);
         }
 
         else
         {
             acceleration *= decelerationConst;
-            acceleration = Mathf.Clamp(acceleration, minAcceleration, maxAcceleration);
+            acceleration = Mathf.Clamp(acceleration, minAcceleration, maxAcelerationWhenRunning);
         }
     }
 
@@ -85,5 +90,18 @@ public class PlayerMovementsTank : MonoBehaviour
 
         // Rotate player
         objectTransform.Rotate(0, direction.x * rotationTime, 0, Space.Self);
+    }
+
+    private void Accelerate()
+    {
+        float accelerate =  accelerateAction.ReadValue<float>();
+        if (accelerate == 1f)
+        {
+            maxAcelerationWhenRunning = maxAcceleration * 1.5f;
+        }
+        else
+        {
+            maxAcelerationWhenRunning = maxAcceleration;
+        }
     }
 }
