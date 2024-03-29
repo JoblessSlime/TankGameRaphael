@@ -101,6 +101,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "",
+                    "id": "70247963-6fd5-4894-b25d-d934e37f1386",
+                    "path": "<SwitchProControllerHID>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "KeyboardControllers",
                     "id": "35c14031-1de2-4b44-b17e-f77da9f118dc",
                     "path": "1DAxis",
