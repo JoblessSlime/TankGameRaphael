@@ -16,11 +16,17 @@ public class PlayerMovementsTank : MonoBehaviour
     // must be less than accelerationConst
     public float decelerationConst;
 
+    //
+    public Vector3 test;
+    public float testYcoord;
+    //
+
     public float maxAcceleration;
     public float minAcceleration;
     public float acceleration;
 
     private float maxAcelerationWhenRunning;
+    private float directionYForDeceleration = 0;
 
     public float speed = 5.0f;
     public float rotationTime = 0.2f;
@@ -64,8 +70,8 @@ public class PlayerMovementsTank : MonoBehaviour
 
     private void PlayerMovement()
     {
-        Debug.Log(moveAction.ReadValue<Vector2>());
-        Debug.Log(objectRigidBody.velocity);
+        // Debug.Log(moveAction.ReadValue<Vector2>());
+        Debug.Log(objectTransform.forward);
 
         Vector2 direction = moveAction.ReadValue<Vector2>();
 
@@ -73,18 +79,28 @@ public class PlayerMovementsTank : MonoBehaviour
         // We multiply "direction.x" by 0.1 so it does not hinder the rotation
         Vector3 movement = new Vector3(direction.x * 0.1f, 0.0f, direction.y);
 
-        // Move player
+        //
+        test = movement;
+        testYcoord = directionYForDeceleration;
+        //
+
+        // Move player on x axis only
         objectTransform.Translate(direction.x *  0.1f * speed * Time.deltaTime, 0.0f, 0.0f, Space.Self);
 
 
-        if (movement != new Vector3(0.0f, 0.0f, 0.0f))
+        objectRigidBody.velocity = (objectTransform.forward * directionYForDeceleration * speed * Time.deltaTime * acceleration);
+        objectRigidBody.AddForce(objectTransform.forward * directionYForDeceleration * acceleration, ForceMode.Acceleration);
+
+
+        if (movement != new Vector3(0, 0, 0))
         {
             isPlayerMoving = true;
-            objectRigidBody.velocity = (objectTransform.forward * direction.y * speed * Time.deltaTime * acceleration);
-            objectRigidBody.AddForce(objectTransform.forward * direction.y * acceleration, ForceMode.Acceleration);
+            directionYForDeceleration = direction.y;
         }
         else
         {
+            directionYForDeceleration *= 0.99f;
+            directionYForDeceleration = Mathf.Clamp(directionYForDeceleration, -1, 1);
             // objectRigidBody.velocity = objectRigidBody.velocity * decelerationConst * Time.deltaTime;
         }
 
