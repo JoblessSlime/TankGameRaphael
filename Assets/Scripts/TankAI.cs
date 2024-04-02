@@ -16,6 +16,8 @@ public class TankAI : MonoBehaviour
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
+    public float patrolTimeLimit;  // This is mostly for debugging if AI is stuck with a walkpoint
+    private float patrolTime;
 
     // Attacking
     public float timeBetweenAttacks;
@@ -69,6 +71,7 @@ public class TankAI : MonoBehaviour
         if (!walkPointSet)
         {
             SearchWalkPoint();
+            patrolTime = 0f;
         }
 
         else
@@ -76,9 +79,10 @@ public class TankAI : MonoBehaviour
             agent.SetDestination(walkPoint);
         }
 
+        patrolTime += Time.deltaTime;
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 1f || patrolTime >= patrolTimeLimit)
         {
             walkPointSet = false;
         }

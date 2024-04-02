@@ -552,5 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 3414137705279136386}
   easeSlider: {fileID: 6734173923239547107}
+  camera: {fileID: 0}
+  healthBarTransform: {fileID: 0}
   maxHealth: 100
   health: 0
