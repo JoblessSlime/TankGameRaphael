@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class CollectibleManager : MonoBehaviour
 {
-    public int points = 0;
+    public float bonusHealth = 10;
 
-    void OnTriggerEnter(Collider objetDeTrigger)
+    // Could Be OnTriggerEnter
+    private void OnCollisionEnter(Collision objetDeCollision)
     {
-        if (objetDeTrigger.gameObject.CompareTag("collectible"))
+        Debug.Log("CollisionDetected");
+        if (objetDeCollision.gameObject.CompareTag("HealthCollectible"))
         {
-            points++;
-
-            Destroy(objetDeTrigger.gameObject);
+            Debug.Log("HealthDetected");
+            Destroy(objetDeCollision.gameObject);
             // Could also be     objetDeTrigger.gameObject.SetActive(false);
+
+            float healthChanger = this.gameObject.GetComponent<HealthBarManager>().health;
+            healthChanger += bonusHealth;
+            healthChanger = Mathf.Clamp(healthChanger, 0, 100);
+            this.gameObject.GetComponent<HealthBarManager>().health = healthChanger;
         }
     }
 }

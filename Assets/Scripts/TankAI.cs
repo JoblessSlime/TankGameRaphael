@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//
+
+// Importing UnityEngine.AI
 using UnityEngine.AI;
 
 public class TankAI : MonoBehaviour
@@ -32,6 +33,10 @@ public class TankAI : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletSpeed = 1f;
 
+    // Wheels rotation
+    public float wheelRotationSpeed; // in degrees
+    public Transform wheelATransform, wheelBTransform, wheelCTransform, wheelDTransform;
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -53,11 +58,21 @@ public class TankAI : MonoBehaviour
         if (!playerInSightRange && !playerInAttackRange) 
         {
             Patroling();
+            // Rotate wheels
+            wheelATransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelBTransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelCTransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelDTransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
         }
 
         if (playerInSightRange && !playerInAttackRange)
         {
             ChasePlayer();
+            // Rotate wheels
+            wheelATransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelBTransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelCTransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelDTransform.Rotate(1f * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
         }
 
         if (playerInSightRange && playerInAttackRange)
@@ -123,6 +138,6 @@ public class TankAI : MonoBehaviour
         alreadyAttacked = false;
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
-        bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * 6000f);
+        bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * 2000f);
     }
 }

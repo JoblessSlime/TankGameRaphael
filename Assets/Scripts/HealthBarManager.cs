@@ -13,6 +13,11 @@ public class HealthBarManager : MonoBehaviour
     public float health;
     private float lerpSpeed = 0.05f;
 
+    // Death
+    public GameObject dropAfterDeath;
+    public float dropRate; // Between 0/1
+    public bool deathEndsGame = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +44,10 @@ public class HealthBarManager : MonoBehaviour
         if (easeSlider.value < 0.01f) 
         { 
             Destroy(gameObject);
+            if (Random.Range(0, 1) < dropRate)
+            {
+                var bonusDrop = Instantiate(dropAfterDeath, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            }
         }
     }
 

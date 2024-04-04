@@ -16,11 +16,6 @@ public class PlayerMovementsTank : MonoBehaviour
     // must be less than accelerationConst
     public float decelerationConst;
 
-    //
-    public Vector3 test;
-    public float testYcoord;
-    //
-
     public float maxAcceleration;
     public float minAcceleration;
     public float acceleration;
@@ -36,6 +31,11 @@ public class PlayerMovementsTank : MonoBehaviour
     PlayerInput playerInput;
     InputAction moveAction;
     InputAction accelerateAction;
+
+    // Wheels rotation
+    public float wheelRotationSpeed; // in degrees
+    private float wheelAceleration = 1f; // For when player accelerates, wheel rotation accelerates too
+    public Transform wheelATransform, wheelBTransform, wheelCTransform, wheelDTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -79,11 +79,6 @@ public class PlayerMovementsTank : MonoBehaviour
         // We multiply "direction.x" by 0.1 so it does not hinder the rotation
         Vector3 movement = new Vector3(direction.x * 0.1f, 0.0f, direction.y);
 
-        //
-        test = movement;
-        testYcoord = directionYForDeceleration;
-        //
-
         // Move player on x axis only
         objectTransform.Translate(direction.x *  0.1f * speed * Time.deltaTime, 0.0f, 0.0f, Space.Self);
 
@@ -96,6 +91,12 @@ public class PlayerMovementsTank : MonoBehaviour
         {
             isPlayerMoving = true;
             directionYForDeceleration = direction.y;
+
+            // Rotate wheels
+            wheelATransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelBTransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelCTransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+            wheelDTransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
         }
         else
         {
@@ -114,10 +115,12 @@ public class PlayerMovementsTank : MonoBehaviour
         if (accelerate == 1f)
         {
             maxAcelerationWhenRunning = maxAcceleration * 1.5f;
+            wheelAceleration = 1.5f;
         }
         else
         {
             maxAcelerationWhenRunning = maxAcceleration;
+            wheelAceleration = 1f;
         }
     }
 }
