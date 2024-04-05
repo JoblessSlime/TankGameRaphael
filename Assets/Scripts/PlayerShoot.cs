@@ -7,7 +7,9 @@ public class PlayerShoot : MonoBehaviour
 {
     public Transform bulletSpawnPoint;
     public GameObject bulletPrefab;
+
     public float bulletSpeed = 500f;
+    public float impulsion;
     private float elapsedTime;
     public float timeBetweenShoots;
 
@@ -29,7 +31,7 @@ public class PlayerShoot : MonoBehaviour
         {
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
-            bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * 6000f);
+            bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * impulsion);
             elapsedTime = 0f;
         }
     }
