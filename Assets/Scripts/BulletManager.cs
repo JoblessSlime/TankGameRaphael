@@ -7,6 +7,11 @@ public class BulletManager : MonoBehaviour
     public int damages;
     public float lifeTimeLimit = 2f;
     private float lifeTime = 0f;
+
+    //sfx
+    public AudioSource audioSource;
+    public AudioClip explosionEndSFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +30,9 @@ public class BulletManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("character"))
+        Destroy(gameObject);
+
+        if (collision.gameObject.CompareTag("character") || collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<HealthBarManager>().health -= damages;
         }
@@ -33,6 +40,10 @@ public class BulletManager : MonoBehaviour
         {
             Destroy(collision.gameObject);
         }
-        Destroy(gameObject);
+
+        // sfx
+        audioSource.clip = explosionEndSFX;
+        audioSource.Play();
+
     }
 }

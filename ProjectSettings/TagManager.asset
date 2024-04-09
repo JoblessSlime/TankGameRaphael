@@ -8,6 +8,7 @@ TagManager:
   - destructible
   - collectible
   - HealthCollectible
+  - portal1
   layers:
   - Default
   - TransparentFX

@@ -15,6 +15,11 @@ public class PlayerShoot : MonoBehaviour
 
     PlayerInput playerInput;
     InputAction shootingAction;
+
+    //sfx
+    public AudioSource audioSource;
+    public AudioClip explosionSFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +37,12 @@ public class PlayerShoot : MonoBehaviour
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
             bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * impulsion);
+
             elapsedTime = 0f;
+
+            // sfx
+            audioSource.clip = explosionSFX;
+            audioSource.Play();
         }
     }
 }

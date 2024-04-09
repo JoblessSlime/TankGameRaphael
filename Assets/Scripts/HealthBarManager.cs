@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthBarManager : MonoBehaviour
 {
@@ -22,7 +24,6 @@ public class HealthBarManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
         healthSlider.value = health * 0.01f;
         easeSlider.value = health * 0.01f;
         healthBarTransform.LookAt(healthBarTransform.position + camera.forward);
@@ -43,7 +44,14 @@ public class HealthBarManager : MonoBehaviour
 
         if (easeSlider.value < 0.01f) 
         { 
-            Destroy(gameObject);
+            if (gameObject.CompareTag("character"))
+            {
+                Destroy(gameObject);
+            }
+            else if (gameObject.CompareTag("Player"))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
             if (Random.Range(0, 1) < dropRate)
             {
                 var bonusDrop = Instantiate(dropAfterDeath, this.gameObject.transform.position, this.gameObject.transform.rotation);
