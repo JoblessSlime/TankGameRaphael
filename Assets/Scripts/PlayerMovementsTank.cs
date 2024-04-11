@@ -114,8 +114,8 @@ public class PlayerMovementsTank : MonoBehaviour
         float accelerate =  accelerateAction.ReadValue<float>();
         if (accelerate == 1f)
         {
-            maxAcelerationWhenRunning = maxAcceleration * 1.5f;
-            wheelAceleration = 1.5f;
+            maxAcelerationWhenRunning = maxAcceleration * 2f;
+            wheelAceleration = 1.8f;
         }
         else
         {
