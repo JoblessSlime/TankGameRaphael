@@ -2,35 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PortalOptions : ScriptableObject
+public class PortalOptions : MonoBehaviour
 {
     public int enemyKilled = 0;
-    public int BlueBalls = 0;
+    public int magicBalls = 0;
     public int actualLevel = 0;
-    public bool NextLevelIsBloody = false;
-    public bool NextLevelIsNormal = false;
-    public bool NextLevelIsPeaceful = false;
+
+    public bool nextLevelIsBloody = false;
+    public bool nextLevelIsNormal = false;
+    public bool nextLevelIsPeaceful = false;
 
     // Update is called once per frame
     void LateUpdate()
     {
-       if (enemyKilled > 0 && BlueBalls != 0)
+       if (enemyKilled > 0 && magicBalls != 3)
         {
-            NextLevelIsBloody = true;
-            NextLevelIsPeaceful = false;
+            nextLevelIsBloody = true;
+            nextLevelIsPeaceful = false;
         }
        
-       if (BlueBalls == 3 && enemyKilled > 0)
+       if (magicBalls == 3 && enemyKilled > 0)
         {
-            NextLevelIsNormal = true;
-            NextLevelIsBloody = false;
+            nextLevelIsNormal = true;
+            nextLevelIsBloody = false;
         }
 
-       if (BlueBalls == 3 && enemyKilled == 0)
+       if (magicBalls == 3 && enemyKilled == 0)
         {
-            NextLevelIsPeaceful = true;
-            NextLevelIsBloody = false;
-            NextLevelIsNormal = false;
+            nextLevelIsPeaceful = true;
+            nextLevelIsBloody = false;
+            nextLevelIsNormal = false;
         }
     }
 }

@@ -20,6 +20,9 @@ public class HealthBarManager : MonoBehaviour
     public float dropRate; // Between 0/1
     public bool deathEndsGame = false;
 
+    // Script
+    [SerializeField] private PortalOptions portalOptions;
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +49,7 @@ public class HealthBarManager : MonoBehaviour
         { 
             if (gameObject.CompareTag("character"))
             {
+                portalOptions.enemyKilled += 1;
                 Destroy(gameObject);
             }
             else if (gameObject.CompareTag("Player"))

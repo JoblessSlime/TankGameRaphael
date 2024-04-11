@@ -8,7 +8,11 @@ TagManager:
   - destructible
   - collectible
   - HealthCollectible
-  - portal1
+  - portalRed
+  - portalBlue
+  - portalGreen
+  - runeStone
+  - MagicCollectible
   layers:
   - Default
   - TransparentFX
