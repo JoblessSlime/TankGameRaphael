@@ -56,7 +56,7 @@ public class HealthBarManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-            if (Random.Range(0, 1) < dropRate)
+            if (Random.Range(0.0f, 1.0f) < dropRate)
             {
                 var bonusDrop = Instantiate(dropAfterDeath, this.gameObject.transform.position, this.gameObject.transform.rotation);
             }
