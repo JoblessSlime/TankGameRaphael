@@ -19,7 +19,8 @@ public class CollectibleManager : MonoBehaviour
     [SerializeField] private PortalOptions portalOptions;
 
     // Could Be OnTriggerEnter
-    private void OnCollisionEnter(Collision objetDeCollision)
+    // private void OnCollisionEnter(Collision objetDeCollision)
+    private void OnTriggerEnter(Collider objetDeCollision)
     {
         if (objetDeCollision.gameObject.CompareTag("HealthCollectible"))
         {
@@ -91,18 +92,27 @@ public class CollectibleManager : MonoBehaviour
                 Debug.Log("bloody");
                 GameObject portal = objetDeCollision.transform.GetChild(0).gameObject;
                 portal.SetActive(true);
+
+                objetDeCollision.transform.GetChild(1).gameObject.SetActive(false);
+                objetDeCollision.transform.GetChild(2).gameObject.SetActive(false);
             }
             else if (portalOptions.nextLevelIsNormal)
             {
                 Debug.Log("normal");
                 GameObject portal = objetDeCollision.transform.GetChild(1).gameObject;
                 portal.SetActive(true);
+
+                objetDeCollision.transform.GetChild(0).gameObject.SetActive(false);
+                objetDeCollision.transform.GetChild(2).gameObject.SetActive(false);
             }
             else if (portalOptions.nextLevelIsPeaceful)
             {
                 Debug.Log("peaceful");
                 GameObject portal = objetDeCollision.transform.GetChild(2).gameObject;
                 portal.SetActive(true);
+
+                objetDeCollision.transform.GetChild(0).gameObject.SetActive(false);
+                objetDeCollision.transform.GetChild(1).gameObject.SetActive(false);
             }
 
             // sfx
