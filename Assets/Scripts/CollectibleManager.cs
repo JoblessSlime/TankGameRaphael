@@ -53,7 +53,18 @@ public class CollectibleManager : MonoBehaviour
         {
             Debug.Log("portalDetected");
             portalOptions.magicBalls = 0;
-            SceneManager.LoadScene("Level2");
+            if (portalOptions.actualLevel == 0)
+            {
+                SceneManager.LoadScene("Level2Bloody");
+            }
+            else if (portalOptions.actualLevel < 4)
+            {
+                SceneManager.LoadScene("Level3Bloody");
+            }
+            else
+            {
+                SceneManager.LoadScene("Level4Bloody");
+            }
 
             // sfx
             audioSource.clip = portalTouchedSFX;
@@ -63,7 +74,18 @@ public class CollectibleManager : MonoBehaviour
         {
             Debug.Log("portalDetected");
             portalOptions.magicBalls = 0;
-            SceneManager.LoadScene("Level2");
+            if(portalOptions.actualLevel == 0)
+            {
+                SceneManager.LoadScene("Level2");
+            }
+            else if (portalOptions.actualLevel < 4)
+            {
+                SceneManager.LoadScene("Level3");
+            }
+            else
+            {
+                SceneManager.LoadScene("Level4");
+            }
 
             // sfx
             audioSource.clip = portalTouchedSFX;
@@ -73,7 +95,18 @@ public class CollectibleManager : MonoBehaviour
         {
             Debug.Log("portalDetected");
             portalOptions.magicBalls = 0;
-            SceneManager.LoadScene("Level2");
+            if (portalOptions.actualLevel == 0)
+            {
+                SceneManager.LoadScene("Level2Peaceful");
+            }
+            else if (portalOptions.actualLevel < 4)
+            {
+                SceneManager.LoadScene("Level3Peaceful");
+            }
+            else
+            {
+                SceneManager.LoadScene("Level4Peaceful");
+            }
 
             // sfx
             audioSource.clip = portalTouchedSFX;
