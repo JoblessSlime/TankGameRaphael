@@ -82,6 +82,16 @@ public class PlayerMovementsTank : MonoBehaviour
         // Move player on x axis only
         objectTransform.Translate(direction.x *  0.1f * speed * Time.deltaTime, 0.0f, 0.0f, Space.Self);
 
+        // Handling player rotation (when climbing)
+        /*
+        float rotationX = objectTransform.rotation.x;
+        rotationX = Mathf.Clamp(rotationX, -20, 20);
+        objectTransform.rotation = Quaternion.Euler(rotationX, objectTransform.rotation.y, objectTransform.rotation.z);
+        */
+
+        // Rotate player
+        objectTransform.Rotate(0, direction.x * rotationTime, 0, Space.Self);
+
 
         objectRigidBody.velocity = (objectTransform.forward * directionYForDeceleration * speed * Time.deltaTime * acceleration);
         objectRigidBody.AddForce(objectTransform.forward * directionYForDeceleration * acceleration, ForceMode.Acceleration);
@@ -104,9 +114,6 @@ public class PlayerMovementsTank : MonoBehaviour
             directionYForDeceleration = Mathf.Clamp(directionYForDeceleration, -1, 1);
             // objectRigidBody.velocity = objectRigidBody.velocity * decelerationConst * Time.deltaTime;
         }
-
-        // Rotate player
-        objectTransform.Rotate(0, direction.x * rotationTime, 0, Space.Self);
     }
 
     private void Accelerate()

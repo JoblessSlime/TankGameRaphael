@@ -4,6 +4,7 @@ using UnityEngine;
 
 // Importing UnityEngine.AI
 using UnityEngine.AI;
+using UnityEngine.Audio;
 
 public class TankAI : MonoBehaviour
 {
@@ -36,6 +37,10 @@ public class TankAI : MonoBehaviour
     // Wheels rotation
     public float wheelRotationSpeed; // in degrees
     public Transform wheelATransform, wheelBTransform, wheelCTransform, wheelDTransform;
+
+    // Audio
+    public AudioSource audioSrcEnemy;
+    public AudioClip shootSFX;
 
     private void Awake()
     {
@@ -139,5 +144,9 @@ public class TankAI : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
         bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnPoint.forward * 2000f);
+
+        // sfx
+        audioSrcEnemy.clip = shootSFX;
+        audioSrcEnemy.Play();
     }
 }
