@@ -18,8 +18,7 @@ public class CollectibleManager : MonoBehaviour
     // Script
     [SerializeField] private PortalOptions portalOptions;
 
-    // Could Be OnTriggerEnter
-    // private void OnCollisionEnter(Collision objetDeCollision)
+    
     private void OnTriggerEnter(Collider objetDeCollision)
     {
         if (objetDeCollision.gameObject.CompareTag("HealthCollectible"))

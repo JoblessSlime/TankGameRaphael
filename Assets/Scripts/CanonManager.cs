@@ -40,7 +40,6 @@ public class CanonManager : MonoBehaviour
         Vector2 direction = moveCanonAction.ReadValue<Vector2>();
 
         canonTransform.Rotate(0, direction.x * turnSpeed, 0, Space.Self);
-        // objectTransform.Rotate(Vector3.up, turn * turnSpeed * Time.deltaTime);
     }
 
     private void CenterCanon()

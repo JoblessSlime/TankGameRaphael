@@ -10,14 +10,16 @@ public class BombManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip explosionSFX;
 
+    // vfx
+    public GameObject explosionVFX;
+
     // Could Be OnTriggerEnter
     private void OnCollisionEnter(Collision objetDeCollision)
     {
-        Debug.Log("CollisionDetected");
         if (objetDeCollision.gameObject.CompareTag("character") || objetDeCollision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("explosionDetected");
             Destroy(this.gameObject);
+            var vfx = Instantiate(explosionVFX, transform.position, transform.rotation);
             // Could also be     this.gameObject.SetActive(false);
 
             // sfx

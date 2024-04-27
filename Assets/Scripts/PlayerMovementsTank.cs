@@ -12,21 +12,12 @@ public class PlayerMovementsTank : MonoBehaviour
     [SerializeField] private Transform objectTransform;
     [SerializeField] private Rigidbody objectRigidBody;
 
-    public float accelerationConst;
-    // must be less than accelerationConst
-    public float decelerationConst;
-
     public float maxAcceleration;
-    public float minAcceleration;
-    public float acceleration;
-
     private float maxAcelerationWhenRunning;
-    private float directionYForDeceleration = 0;
 
-    public float speed = 5.0f;
+    public float speed;
+    public float rotationSpeed;
     public float rotationTime = 0.2f;
-
-    private bool isPlayerMoving = false;
 
     PlayerInput playerInput;
     InputAction moveAction;
@@ -46,73 +37,41 @@ public class PlayerMovementsTank : MonoBehaviour
         // Action must be given the accurate name
         moveAction = playerInput.actions.FindAction("Move");
         accelerateAction = playerInput.actions.FindAction("Accelerate");
-
-        acceleration = minAcceleration;
     }
 
     private void FixedUpdate()
     {
-        isPlayerMoving = false;
         PlayerMovement();
         Accelerate();
-        if(isPlayerMoving)
-        {
-            acceleration *= accelerationConst;
-            acceleration = Mathf.Clamp(acceleration, minAcceleration, maxAcelerationWhenRunning);
-        }
-
-        else
-        {
-            acceleration *= decelerationConst;
-            acceleration = Mathf.Clamp(acceleration, minAcceleration, maxAcelerationWhenRunning);
-        }
     }
 
     private void PlayerMovement()
     {
-        // Debug.Log(moveAction.ReadValue<Vector2>());
-        Debug.Log(objectTransform.forward);
-
         Vector2 direction = moveAction.ReadValue<Vector2>();
 
-        // Convert Vector2 to Vector3
-        // We multiply "direction.x" by 0.1 so it does not hinder the rotation
-        Vector3 movement = new Vector3(direction.x * 0.1f, 0.0f, direction.y);
+        // Rotate player
+        objectRigidBody.MoveRotation(objectRigidBody.rotation * Quaternion.Euler(Vector3.up * direction.x * rotationTime));
 
         // Move player on x axis only
-        objectTransform.Translate(direction.x *  0.1f * speed * Time.deltaTime, 0.0f, 0.0f, Space.Self);
+        objectTransform.Translate(direction.x * 0.1f * rotationSpeed * Time.deltaTime, 0.0f, 0.0f, Space.Self);
 
-        // Handling player rotation (when climbing)
-        /*
-        float rotationX = objectTransform.rotation.x;
-        rotationX = Mathf.Clamp(rotationX, -20, 20);
-        objectTransform.rotation = Quaternion.Euler(rotationX, objectTransform.rotation.y, objectTransform.rotation.z);
-        */
+        // Move player
+        objectRigidBody.AddForce(objectTransform.forward * direction.y * speed, ForceMode.Acceleration);
 
-        // Rotate player
-        objectTransform.Rotate(0, direction.x * rotationTime, 0, Space.Self);
-
-
-        objectRigidBody.velocity = (objectTransform.forward * directionYForDeceleration * speed * Time.deltaTime * acceleration);
-        objectRigidBody.AddForce(objectTransform.forward * directionYForDeceleration * acceleration, ForceMode.Acceleration);
-
-
-        if (movement != new Vector3(0, 0, 0))
+        // Assure player never goes faster than "maxAcelerationWhenRunning"
+        if (objectRigidBody.velocity.magnitude > maxAcelerationWhenRunning) 
         {
-            isPlayerMoving = true;
-            directionYForDeceleration = direction.y;
+            objectRigidBody.velocity = Vector3.ClampMagnitude(objectRigidBody.velocity, maxAcelerationWhenRunning);
+        }
 
+
+        if (direction != new Vector2(0, 0))
+        {
             // Rotate wheels
             wheelATransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
             wheelBTransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
             wheelCTransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
             wheelDTransform.Rotate(direction.y * wheelRotationSpeed * Time.deltaTime, 0, 0, Space.Self);
-        }
-        else
-        {
-            directionYForDeceleration *= 0.99f;
-            directionYForDeceleration = Mathf.Clamp(directionYForDeceleration, -1, 1);
-            // objectRigidBody.velocity = objectRigidBody.velocity * decelerationConst * Time.deltaTime;
         }
     }
 
@@ -122,7 +81,7 @@ public class PlayerMovementsTank : MonoBehaviour
         if (accelerate == 1f)
         {
             maxAcelerationWhenRunning = maxAcceleration * 2f;
-            wheelAceleration = 1.8f;
+            wheelAceleration = 2f;
         }
         else
         {

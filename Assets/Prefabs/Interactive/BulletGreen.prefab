@@ -150,5 +150,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damages: 10
   lifeTimeLimit: 2
-  audioSource: {fileID: 6573343471728931889, guid: 235c81c403d39a94d9858311c2016de2, type: 3}
-  explosionEndSFX: {fileID: 8300000, guid: 67afadf8c061fe049a4f49daa870cf3b, type: 3}
+  explosionVFX: {fileID: 358637981425055526, guid: 8eb503696b886e04faff8fc0f480d473, type: 3}

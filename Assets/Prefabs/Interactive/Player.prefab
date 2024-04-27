@@ -921,13 +921,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectTransform: {fileID: 8152202065896502025}
   objectRigidBody: {fileID: 3847923472524624677}
-  accelerationConst: 1.05
-  decelerationConst: 0.98
-  maxAcceleration: 100
-  minAcceleration: 2
-  acceleration: 2
-  speed: 5
-  rotationTime: 0.4
+  maxAcceleration: 10
+  speed: 20
+  rotationSpeed: 2
+  rotationTime: 0.6
   wheelRotationSpeed: 220
   wheelATransform: {fileID: 5136076487506280925}
   wheelBTransform: {fileID: 2689508871179893530}
@@ -1035,6 +1032,7 @@ MonoBehaviour:
   dropAfterDeath: {fileID: 8582251699640447093, guid: 94711f06ccc67d04592e74620c1c6848, type: 3}
   dropRate: 0
   deathEndsGame: 0
+  portalOptions: {fileID: 0}
 --- !u!114 &920241482825085521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,7 +1048,10 @@ MonoBehaviour:
   bonusHealth: 10
   audioSource: {fileID: 0}
   healthSFX: {fileID: 0}
+  MagicSFX: {fileID: 0}
+  runeStoneSFX: {fileID: 0}
   portalTouchedSFX: {fileID: 8300000, guid: aa93597799dae13468db2a9c697b9b5e, type: 3}
+  portalOptions: {fileID: 0}
 --- !u!1 &7660429052769274399
 GameObject:
   m_ObjectHideFlags: 0

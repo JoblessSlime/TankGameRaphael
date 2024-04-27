@@ -8,15 +8,9 @@ public class BulletManager : MonoBehaviour
     public float lifeTimeLimit = 2f;
     private float lifeTime = 0f;
 
-    //sfx
-    public AudioSource audioSource;
-    public AudioClip explosionEndSFX;
+    // vfx
+    public GameObject explosionVFX;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -31,6 +25,7 @@ public class BulletManager : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
+        var vfx = Instantiate(explosionVFX, transform.position, transform.rotation);
 
         if (collision.gameObject.CompareTag("character") || collision.gameObject.CompareTag("Player"))
         {
@@ -40,10 +35,5 @@ public class BulletManager : MonoBehaviour
         {
             Destroy(collision.gameObject);
         }
-
-        // sfx
-        audioSource.clip = explosionEndSFX;
-        audioSource.Play();
-
     }
 }

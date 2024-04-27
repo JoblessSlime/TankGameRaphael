@@ -102,6 +102,7 @@ MonoBehaviour:
   damages: 10
   audioSource: {fileID: 0}
   explosionSFX: {fileID: 8300000, guid: 51741347cbe3ecd40a002877e1a9e1b3, type: 3}
+  explosionVFX: {fileID: 358637981425055526, guid: 8eb503696b886e04faff8fc0f480d473, type: 3}
 --- !u!65 &2858155107685687692
 BoxCollider:
   m_ObjectHideFlags: 0
